@@ -222,12 +222,20 @@ def editText(title, txt1):
             else:
                 cursorX += 1
         try:
-            scr.txt(txtLines[currentLine][max([cursorX-3, 0]):], 0, 33, 255, 255, 255, 0, 0, 0)
-            scr.txt(txtLines[currentLine+1][max([cursorX-3, 0]):], 0, 66, 255, 255, 255, 0, 0, 0)
-            scr.txt(txtLines[currentLine+2][max([cursorX-3, 0]):], 0, 99, 255, 255, 255, 0, 0, 0)
+            if currentLine == 0:
+                scr.txt(txtLines[currentLine][max([cursorX-6, 0]):], 0, 33, 255, 255, 255, 0, 0, 0)
+                scr.txt(txtLines[currentLine+1][max([cursorX-6, 0]):], 0, 66, 255, 255, 255, 0, 0, 0)
+                scr.txt(txtLines[currentLine+2][max([cursorX-6, 0]):], 0, 99, 255, 255, 255, 0, 0, 0)
+            else:
+                scr.txt(txtLines[currentLine-1][max([cursorX-6, 0]):], 0, 33, 255, 255, 255, 0, 0, 0)
+                scr.txt(txtLines[currentLine][max([cursorX-6, 0]):], 0, 66, 255, 255, 255, 0, 0, 0)
+                scr.txt(txtLines[currentLine+1][max([cursorX-6, 0]):], 0, 99, 255, 255, 255, 0, 0, 0)
         except IndexError:
             pass
-        scr.fillRect(16*min([3, cursorX]), 64, 16, 2, 255, 255, 255)
+        if currentLine == 0:
+            scr.fillRect(16*min([6, cursorX]), 64, 16, 2, 255, 255, 255)
+        else:
+            scr.fillRect(16*min([6, cursorX]), 97, 16, 2, 255, 255, 255)
         if shift == "shift":
             scr.txt("^", 224, 0, 255, 255, 255, 0, 0, 0)
         if shift == "function":
