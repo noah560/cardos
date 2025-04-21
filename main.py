@@ -115,7 +115,7 @@ def mainMenu():
     cursor = 0
     while True:
         if len(programList) > 0:
-            drawMenuScreen("o for options", programList[cursor:], 0, 2, "")
+            drawMenuScreen("o for options", programList[cursor:], 0, 0, "")
         else:
             scr.fillRect(0, 0, scr.width, scr.height, 0, 0, 0)
             scr.txt("No programs.", 0, 0, 255, 255, 255, 0, 0, 0)
@@ -222,14 +222,15 @@ def editText(title, txt1):
             else:
                 cursorX += 1
         try:
+            sx =  max([cursorX-6, 0])
             if currentLine == 0:
-                scr.txt(txtLines[currentLine][max([cursorX-6, 0]):], 0, 33, 255, 255, 255, 0, 0, 0)
-                scr.txt(txtLines[currentLine+1][max([cursorX-6, 0]):], 0, 66, 255, 255, 255, 0, 0, 0)
-                scr.txt(txtLines[currentLine+2][max([cursorX-6, 0]):], 0, 99, 255, 255, 255, 0, 0, 0)
+                scr.txt(txtLines[currentLine][sx:min([sx+15, len(txtLines[currentLine])])], 0, 33, 255, 255, 255, 0, 0, 0)
+                scr.txt(txtLines[currentLine+1][sx:min([sx+15, len(txtLines[currentLine]+1)])], 0, 66, 255, 255, 255, 0, 0, 0)
+                scr.txt(txtLines[currentLine+2][sx:min([sx+15, len(txtLines[currentLine]+2)])], 0, 99, 255, 255, 255, 0, 0, 0)
             else:
-                scr.txt(txtLines[currentLine-1][max([cursorX-6, 0]):], 0, 33, 255, 255, 255, 0, 0, 0)
-                scr.txt(txtLines[currentLine][max([cursorX-6, 0]):], 0, 66, 255, 255, 255, 0, 0, 0)
-                scr.txt(txtLines[currentLine+1][max([cursorX-6, 0]):], 0, 99, 255, 255, 255, 0, 0, 0)
+                scr.txt(txtLines[currentLine-1][sx:min([sx+15, len(txtLines[currentLine]-1)])], 0, 33, 255, 255, 255, 0, 0, 0)
+                scr.txt(txtLines[currentLine][sx:min([sx+15, len(txtLines[currentLine])])], 0, 66, 255, 255, 255, 0, 0, 0)
+                scr.txt(txtLines[currentLine+1][sx:min([sx+15, len(txtLines[currentLine]+1)])], 0, 99, 255, 255, 255, 0, 0, 0)
         except IndexError:
             pass
         if currentLine == 0:
@@ -262,7 +263,10 @@ def editText(title, txt1):
                 elif k == ".":
                     cursor += len(txtLines[currentLine]) + 1
                 elif k == ";":
-                    cursor -= len(txtLines[currentLine]) + 1
+                    if currentLine > 0:
+                        cursor -= len(txtLines[currentLine-1]) + 1
+                    else:
+                        cursor -= len(txtLines[currentLine]) + 1
                 elif k == "`":
                     time.sleep(0.2)
                     return txt
